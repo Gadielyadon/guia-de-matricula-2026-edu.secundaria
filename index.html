@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de matrícula 2026 — Nodos de Supervisión, Catamarca</title>
+<style>
+  :root{
+    --bg: #F5F6F8;
+    --surface: #FFFFFF;
+    --ink: #1C2430;
+    --ink-soft: #5B6472;
+    --line: #E1E4EA;
+    --brand: #2E5C87;
+    --brand-soft: #EAF1F7;
+    --amber: #B4732C;
+    --amber-soft: #FBF1E5;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:28px 20px 60px;}
+
+  header.top{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:20px; flex-wrap:wrap;
+    padding-bottom:20px; margin-bottom:20px;
+    border-bottom:1px solid var(--line);
+  }
+  header.top h1{
+    font-family: Georgia, "Times New Roman", serif;
+    font-size:28px; font-weight:600; margin:0 0 4px;
+    letter-spacing:-0.01em;
+  }
+  header.top p{margin:0; color:var(--ink-soft); font-size:14.5px;}
+  .stat-row{display:flex; gap:22px;}
+  .stat{text-align:right;}
+  .stat .num{
+    font-family: Georgia, "Times New Roman", serif;
+    font-size:26px; font-weight:600; color:var(--brand); line-height:1;
+  }
+  .stat .lbl{font-size:12.5px; color:var(--ink-soft); margin-top:3px;}
+
+  .controls{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    margin-bottom:20px;
+  }
+  .search-box{position:relative;}
+  .search-box input{
+    width:100%;
+    padding:12px 14px 12px 40px;
+    font-size:15.5px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg);
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .search-box input:focus{border-color:var(--brand); background:var(--surface);}
+  .search-box svg{position:absolute; left:13px; top:50%; transform:translateY(-50%); opacity:.5;}
+
+  .filters{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+  .filters select{
+    padding:8px 10px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--surface);
+    color:var(--ink);
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .filters .clear-btn{
+    padding:8px 12px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--bg);
+    color:var(--ink-soft);
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .filters .clear-btn:hover{color:var(--ink); border-color:var(--brand);}
+
+  .result-meta{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin:4px 2px 14px; color:var(--ink-soft); font-size:13.5px;
+  }
+  .result-meta strong{color:var(--ink); font-weight:600;}
+
+  #grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+    gap:14px;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 17px 15px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .card-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .card-title{font-size:15px; font-weight:600; line-height:1.35;}
+  .card-cue{
+    flex-shrink:0;
+    font-family: "SF Mono", "Consolas", monospace;
+    font-size:11px; color:var(--ink-soft);
+    background:var(--bg); border:1px solid var(--line);
+    border-radius:5px; padding:2px 6px; white-space:nowrap;
+  }
+  .card-tipo{
+    display:inline-block; font-size:11px; font-weight:600;
+    padding:2px 7px; border-radius:5px; width:fit-content;
+  }
+  .card-tipo.sede{background:var(--brand-soft); color:var(--brand);}
+  .card-tipo.anexo{background:#F1EEF9; color:#6B4FA0;}
+
+  .card-meta{font-size:13px; color:var(--ink-soft); line-height:1.55;}
+  .card-meta b{color:var(--ink); font-weight:600;}
+
+  .card-mat{
+    margin-top:auto; padding-top:10px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:flex-end; gap:10px;
+  }
+  .mat-num{font-family: Georgia, serif; font-size:22px; font-weight:600; color:var(--amber);}
+  .mat-lbl{font-size:11px; color:var(--ink-soft);}
+  .mini-bars{display:flex; align-items:flex-end; gap:2px; height:24px;}
+  .mini-bars .bar{width:6px; background:var(--amber-soft); border-radius:1px; position:relative;}
+  .mini-bars .bar span{
+    display:block; position:absolute; bottom:0; left:0; right:0;
+    background:var(--amber); border-radius:1px;
+  }
+  .mini-bars .bar.na{background:var(--line);}
+
+  .empty{
+    text-align:center; padding:60px 20px; color:var(--ink-soft);
+  }
+  .empty b{display:block; color:var(--ink); font-size:16px; margin-bottom:6px;}
+
+  footer{
+    text-align:center; color:var(--ink-soft); font-size:12px;
+    margin-top:34px; padding-top:16px; border-top:1px solid var(--line);
+  }
+
+  @media print{
+    .controls, footer{display:none;}
+    #grid{grid-template-columns:repeat(2,1fr);}
+    body{background:#fff;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Guía de matrícula 2026</h1>
+      <p>Nodos de Supervisión, Común y Rural — Dirección Prov. de Educación Secundaria, Catamarca</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num" id="statInst">—</div><div class="lbl">instituciones</div></div>
+      <div class="stat"><div class="num" id="statMat">—</div><div class="lbl">matrícula total</div></div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input id="searchInput" type="text" placeholder="Buscar por escuela, CUE, localidad, supervisor o departamento…" autocomplete="off">
+    </div>
+    <div class="filters">
+      <select id="filtNodo"><option value="">Nodo — todos</option></select>
+      <select id="filtDepto"><option value="">Departamento — todos</option></select>
+      <select id="filtSupervisor"><option value="">Supervisor — todos</option></select>
+      <select id="filtTipo">
+        <option value="">Tipo — todos</option>
+        <option value="SEDE">Sede</option>
+        <option value="ANEXO">Anexo</option>
+      </select>
+      <button class="clear-btn" id="clearBtn">Limpiar filtros</button>
+    </div>
+  </div>
+
+  <div class="result-meta">
+    <span id="resultCount"></span>
+    <span id="resultMat"></span>
+  </div>
+
+  <div id="grid"></div>
+
+</div>
+
+<footer>Guía interna de trabajo · datos de matrícula actualizados al 9/9/2026</footer>
+
+<script id="data" type="application/json">[{"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100091600", "institucion": "CENTRO EDUCATIVO  N°1 \"RIBERA DEL VALLE\"", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [24, 23, 16, 14, 9, 12], "total": 98}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100085100", "institucion": "ESCUELA DE ARTES ESPECIALIZADA N° 3 DANZAS NATIVAS Y FOLKLORE", "supervisor": "Prof. Cristina Mansilla", "tipo": "SEDE", "anios": [31, 26, 32, 19, 12, 26], "total": 146}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100085200", "institucion": "ESCUELA DE ARTES ESPECIALIZADA N° 4 PROF. JUAN OSCAR PONFERRADA", "supervisor": "Prof. Cristina Mansilla", "tipo": "SEDE", "anios": [13, 16, 13, 15, 12, 7], "total": 76}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100083600", "institucion": "ESCUELA SECUNDARIA Nª76", "supervisor": "Prof. Cristina Mansilla", "tipo": "SEDE", "anios": [94, 135, 110, 93, 79, 66], "total": 577}, {"nodo": "1", "depto": "Capital", "seccion": "1", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100084300", "institucion": "ESCUELA SECUNDARIA Nª77", "supervisor": "Prof. Lía del Valle Herrera", "tipo": "SEDE", "anios": [106, 103, 92, 93, 61, 50], "total": 505}, {"nodo": "1", "depto": "Capital", "seccion": "1", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100007900", "institucion": "ESCUELA SECUNDARIA N° 46 \"HIPÓLITO IRIGOYEN\"", "supervisor": "Prof. Lía del Valle Herrera", "tipo": "SEDE", "anios": [78, 86, 58, 82, 69, 65], "total": 438}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "10007200", "institucion": "ESCUELA SECUNDARIA N° 5 GOB. FRANCISCO GALINDEZ", "supervisor": "Prof. Cristina Mansilla", "tipo": "SEDE", "anios": [63, 57, 56, 78, 81, 75], "total": 410}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100090600", "institucion": "ESCUELA SECUNDARIA N° 84", "supervisor": "Prof. Cristina Mansilla", "tipo": "SEDE", "anios": [47, 68, 51, 29, 30, 31], "total": 256}, {"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100091100", "institucion": "ESCUELA SECUNDARIA N° 89", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [31, 50, 59, 52, 43, 45], "total": 280}, {"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100091500", "institucion": "ESCUELA SECUNDARIA N° 93", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [43, 46, 34, 22, 17, 7], "total": 169}, {"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100043900", "institucion": "ESCUELA SECUNDARIA N°1 \"DR.FIDEL M.CASTRO\"", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [98, 83, 100, 188, 173, 170], "total": 812}, {"nodo": "1", "depto": "Capital", "seccion": "1", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100073200", "institucion": "ESCUELA SECUNDARIA N°2 \" CLARA J. ARMSTRONG\"", "supervisor": "Prof. Lía del Valle Herrera", "tipo": "SEDE", "anios": [110, 154, 140, 162, 177, 160], "total": 903}, {"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100007600", "institucion": "ESCUELA SECUNDARIA N°3 \"JORGE NEWBERY\"", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [207, 150, 143, 128, 101, 96], "total": 825}, {"nodo": "1", "depto": "Capital", "seccion": "1", "localidad": "San Fernando Del Valle De Catamarca  ….", "cue": "100007902", "institucion": "ESCUELA SECUNDARIA N°46 \"HIPÓLITO IRIGOYEN\" ANEXO -N°02- EN  ESCUELA N° 353 \"GENERAL SAN MARTIN\"", "supervisor": "Prof. Lía del Valle Herrera", "tipo": "ANEXO", "anios": [35, 34, 40, 0, 0, 0], "total": 109}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100043800", "institucion": "ESCUELA SECUNDARIA N°47 \"PTE.RAMON S.CASTILLO\"", "supervisor": "Prof. Cristina Mansilla", "tipo": "SEDE", "anios": [136, 116, 109, 80, 55, 78], "total": 574}, {"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100034700", "institucion": "ESCUELA SECUNDARIA N°48 \"PBRO.RAMON ROSA OLMOS\"", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [24, 35, 18, 33, 27, 20], "total": 157}, {"nodo": "1", "depto": "Capital", "seccion": "1", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100063100", "institucion": "ESCUELA SECUNDARIA N°49 RENE FAVALORO", "supervisor": "Prof. Lía del Valle Herrera", "tipo": "SEDE", "anios": [60, 87, 83, 22, 35, 37], "total": 324}, {"nodo": "1", "depto": "Capital", "seccion": "1", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100040300", "institucion": "ESCUELA SECUNDARIA N°50 HEROES DE MALVINAS", "supervisor": "Prof. Lía del Valle Herrera", "tipo": "SEDE", "anios": [83, 82, 81, 60, 43, 39], "total": 388}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100043000", "institucion": "ESCUELA SECUNDARIA N°52 - BANDA DE VARELA", "supervisor": "Prof. Cristina Mansilla", "tipo": "SEDE", "anios": [19, 14, 19, 7, 13, 9], "total": 81}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100043001", "institucion": "ESCUELA SECUNDARIA N°52 ANEXO -N°01- EN ESCUELA N°296 \"PTE. DR. RAMON S. CASTILLO\"", "supervisor": "Prof. Cristina Mansilla", "tipo": "ANEXO", "anios": [25, 39, 40, 17, 19, 10], "total": 150}, {"nodo": "1", "depto": "Capital", "seccion": "1", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100040700", "institucion": "ESCUELA SECUNDARIA N°6 CACIQUE JUAN CHELEMIN", "supervisor": "Prof. Lía del Valle Herrera", "tipo": "SEDE", "anios": [55, 45, 52, 61, 38, 34], "total": 285}, {"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100034600", "institucion": "ESCUELA SECUNDARIA N°7\"GRAL. JOSE MARIA PAZ\"", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [31, 40, 35, 63, 33, 43], "total": 245}, {"nodo": "1", "depto": "Capital", "seccion": "3", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100083602", "institucion": "ESCUELA SECUNDARIA N°76 ANEXO -N°02- EN ESCUELA N° 182 \"LUIS LEOPOLDO FRANCO\"", "supervisor": "Prof. Cristina Mansilla", "tipo": "ANEXO", "anios": [56, 68, 43, null, null, null], "total": 167}, {"nodo": "1", "depto": "Capital", "seccion": "2", "localidad": "San Fernando Del Valle De Catamarca", "cue": "100091400", "institucion": "ESCUELA SECUNDARIA N°92", "supervisor": "Prof. María Elisa Argerich", "tipo": "SEDE", "anios": [32, 48, 30, 26, 14, 13], "total": 163}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "San Pedro", "cue": "100062504", "institucion": "ANEXO N°IV - SECUNDARIA N°45 - ESC. N°283", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "ANEXO", "anios": [9, 2, 8, 7, 7, 5], "total": 38}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "Miraflores", "cue": "100067300", "institucion": "ESCUELA SECUNDARIA N°44", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "SEDE", "anios": [47, 47, 53, 45, 45, 38], "total": 275}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "Huillapima", "cue": "100062500", "institucion": "ESCUELA SECUNDARIA N°45 \"PTE.SARMIENTO\"", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "SEDE", "anios": [54, 47, 44, 54, 38, 37], "total": 274}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "Capayan", "cue": "100062502", "institucion": "ESCUELA SECUNDARIA N°45 \"PTE.SARMIENTO\" ANEXO -N°02- EN ESCUELA N° 226", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "ANEXO", "anios": [11, 10, 5, null, null, null], "total": 26}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "Chumbicha", "cue": "100079400", "institucion": "ESCUELA SECUNDARIA N°72", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "SEDE", "anios": [47, 50, 51, 41, 34, 38], "total": 261}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "Colonia Nueva Coneta", "cue": "100065800", "institucion": "ESCUELA SECUNDARIA N°9 \"GRAL.GUILLERMO BRIZUELA\"", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "SEDE", "anios": [60, 56, 52, 46, 39, 34], "total": 287}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "Concepcion", "cue": "100087200", "institucion": "ESCUELA SECUNDARIA RURAL N°10", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "SEDE", "anios": [15, 8, 8, 7, 8, 6], "total": 52}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "Los Angeles", "cue": "100087300", "institucion": "ESCUELA SECUNDARIA RURAL N°11", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "SEDE", "anios": [4, 4, 4, 1, 2, 9], "total": 24}, {"nodo": "2", "depto": "Capayan", "seccion": "1", "localidad": "San Martin", "cue": "100087100", "institucion": "ESCUELA SECUNDARIA RURAL N°9", "supervisor": "Prof. María del Sol Barrionuevo", "tipo": "SEDE", "anios": [6, 4, 11, 7, 7, 10], "total": 45}, {"nodo": "2", "depto": "Fray Mamerto Esquiu", "seccion": "3", "localidad": "San Jose", "cue": "100041200", "institucion": "ESCUELA SECUNDARIA N°10\"ESTANISLAO MALDONES\"", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "SEDE", "anios": [null, null, null, 63, 79, 64], "total": 206}, {"nodo": "2", "depto": "Fray Mamerto Esquiu", "seccion": "3", "localidad": "San Jose", "cue": "100041201", "institucion": "ESCUELA SECUNDARIA N°10\"ESTANISLAO MALDONES\" ANEXO N°01- EN ESCUELA N° 265 \"FRAY MAMERTO ESQUIÚ\"", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "ANEXO", "anios": [63, 55, 62, null, null, null], "total": 180}, {"nodo": "2", "depto": "Fray Mamerto Esquiu", "seccion": "3", "localidad": "S/D", "cue": "100032000", "institucion": "ESCUELA SECUNDARIA N°54", "supervisor": "Prof. Luis H Bazán", "tipo": "SEDE", "anios": [6, 4, 11, 5, 6, 12], "total": 44}, {"nodo": "2", "depto": "Fray Mamerto Esquiu", "seccion": "3", "localidad": "S/D", "cue": "100032001", "institucion": "ESCUELA SECUNDARIA N°54 ANEXO -01- EN ESCUELA N° 238 \"MARÍA DE LAS NIEVES M. DE ESQUIÚ\"", "supervisor": "Prof. Luis H Bazán", "tipo": "ANEXO", "anios": [6, 20, 18, null, null, null], "total": 44}, {"nodo": "2", "depto": "Fray Mamerto Esquiu", "seccion": "3", "localidad": "S/D", "cue": "100074300", "institucion": "ESCUELA SECUNDARIA N°55  SIGUALTGASTA", "supervisor": "Prof. Luis H Bazán", "tipo": "SEDE", "anios": [38, 30, 51, 44, 40, 26], "total": 229}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "El Portezuelo", "cue": "100065202", "institucion": "ANEXO N°II - SECUNDARIA N°70 - ESC. N°245", "supervisor": "Prof. Lorena Ramirez", "tipo": "ANEXO", "anios": [11, 15, 9, 11, 8, 8], "total": 62}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "San Isidro", "cue": "100082700", "institucion": "CENTRO EDUCATIVO  N° 3 “MAESTRA MARIA EMILIA AZAR\"", "supervisor": "Prof. Lorena Ramirez", "tipo": "SEDE", "anios": [76, 71, 62, 68, 78, 74], "total": 429}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "Santa Rosa", "cue": "100085800", "institucion": "CENTRO EDUCATIVO N°4  \"ROMIS RAIDEN\"", "supervisor": "Prof. Lorena Ramirez", "tipo": "SEDE", "anios": [40, 45, 26, 41, 30, 24], "total": 206}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "Pozo El Mistol", "cue": "100090100", "institucion": "ESCUELA SECUNDARIA N° 83 \"POZO EL MISTOL\"", "supervisor": "Prof. Lorena Ramirez", "tipo": "SEDE", "anios": [35, 35, 27, 23, 19, 12], "total": 151}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "San Isidro", "cue": "100073401", "institucion": "ESCUELA SECUNDARIA N°08 \" ANEXO -N°01- EN ESCUELA N° 702 GOBERNADOR JOSE CUBAS", "supervisor": "Prof. Lorena Ramirez", "tipo": "ANEXO", "anios": [107, 79, 77, null, null, null], "total": 263}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "Santa Rosa", "cue": "100064900", "institucion": "ESCUELA SECUNDARIA N°69", "supervisor": "Prof. Lorena Ramirez", "tipo": "SEDE", "anios": [41, 68, 58, 47, 35, 16], "total": 265}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "Villa Dolores", "cue": "100064901", "institucion": "ESCUELA SECUNDARIA N°69 ANEXO -01- EN ESCUELA N° 272 PROVINCIA DE CORRIENTES", "supervisor": "Prof. Lorena Ramirez", "tipo": "ANEXO", "anios": [12, 28, 24, 15, 13, null], "total": 92}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "El Bañado", "cue": "100065200", "institucion": "ESCUELA SECUNDARIA N°70", "supervisor": "Prof. Lorena Ramirez", "tipo": "SEDE", "anios": [36, 39, 42, 41, 27, 26], "total": 211}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "San Isidro", "cue": "100073400", "institucion": "ESCUELA SECUNDARIA N°8 \"GDOR.JOSE CUBAS\"", "supervisor": "Prof. Lorena Ramirez", "tipo": "SEDE", "anios": [38, 43, 52, 129, 131, 134], "total": 527}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "Las Tejas", "cue": "100088800", "institucion": "ESCUELA SECUNDARIA RURAL N°26", "supervisor": "Prof. Lorena Ramirez", "tipo": "SEDE", "anios": [7, 11, 25, 28, 19, 14], "total": 104}, {"nodo": "2", "depto": "Valle Viejo", "seccion": "2", "localidad": "Agua Colorada", "cue": "100088802", "institucion": "ESCUELA SECUNDARIA RURAL N°26 ANEXO -N°02- EN ESCUELA N° 122", "supervisor": "Prof. Lorena Ramirez", "tipo": "ANEXO", "anios": [3, 4, 2, null, null, null], "total": 9}, {"nodo": "3", "depto": "Ambato", "seccion": "2", "localidad": "El Rodeo", "cue": "100009400", "institucion": "ESCUELA SECUNDARIA N°34 \"ESTEBAN ECHEVERRIA\"", "supervisor": "Prof. Emilce Ferreyra", "tipo": "SEDE", "anios": [16, 16, 21, 15, 10, 16], "total": 94}, {"nodo": "3", "depto": "Ambato", "seccion": "2", "localidad": "Los Varela", "cue": "100013800", "institucion": "ESCUELA SECUNDARIA N°35", "supervisor": "Prof. Emilce Ferreyra", "tipo": "SEDE", "anios": [12, 16, 15, 19, 19, 14], "total": 95}, {"nodo": "3", "depto": "Ambato", "seccion": "2", "localidad": "La Puerta", "cue": "100001000", "institucion": "ESCUELA SECUNDARIA N°36", "supervisor": "Prof. Emilce Ferreyra", "tipo": "SEDE", "anios": [12, 13, 8, 15, 22, 10], "total": 80}, {"nodo": "3", "depto": "Ambato", "seccion": "2", "localidad": "Singuil", "cue": "100086300", "institucion": "ESCUELA SECUNDARIA RURAL N°1", "supervisor": "Prof. Emilce Ferreyra", "tipo": "SEDE", "anios": [6, 10, 6, 6, 5, 4], "total": 37}, {"nodo": "3", "depto": "Ambato", "seccion": "2", "localidad": "Las Chacritas", "cue": "100086400", "institucion": "ESCUELA SECUNDARIA RURAL N°2", "supervisor": "Prof. Emilce Ferreyra", "tipo": "SEDE", "anios": [5, 0, 2, 4, 1, 1], "total": 13}, {"nodo": "3", "depto": "Paclin", "seccion": "1", "localidad": "San Antonio", "cue": "100040802", "institucion": "ANEXO N°II - SECUNDARIA N°61 - ESC. N°375", "supervisor": "Prof. Luis H Bazán", "tipo": "ANEXO", "anios": [17, 19, 14, 10, 18, 15], "total": 93}, {"nodo": "3", "depto": "Paclin", "seccion": "1", "localidad": "Villa De Balcozna", "cue": "100040800", "institucion": "ESCUELA SECUNDARIA N°61", "supervisor": "Prof. Luis H Bazán", "tipo": "SEDE", "anios": [11, 15, 16, 16, 15, 19], "total": 92}, {"nodo": "3", "depto": "Paclin", "seccion": "1", "localidad": "La Merced", "cue": "100040801", "institucion": "ESCUELA SECUNDARIA N°61 ANEXO -N°01- EN ESCUELA N° 292 PCIA.DE TUCUMAN", "supervisor": "Prof. Luis H Bazán", "tipo": "ANEXO", "anios": [4, 2, 6, 7, 0, 3], "total": 22}, {"nodo": "3", "depto": "Paclin", "seccion": "1", "localidad": "Amadores", "cue": "100087900", "institucion": "ESCUELA SECUNDARIA RURAL N°17", "supervisor": "Prof. Luis H Bazán", "tipo": "SEDE", "anios": [5, 9, 14, 12, 9, 11], "total": 60}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "San Pedro", "cue": "100090900", "institucion": "ESCUELA SECUNDARIA N° 87", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "SEDE", "anios": [25, 30, 30, 31, 19, 16], "total": 151}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Lavalle", "cue": "100091000", "institucion": "ESCUELA SECUNDARIA N° 88", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "SEDE", "anios": [14, 37, 34, 31, 24, 30], "total": 170}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Los Altos", "cue": "100009200", "institucion": "ESCUELA SECUNDARIA N°24", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "SEDE", "anios": [null, null, null, 70, 78, 63], "total": 211}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Los Altos", "cue": "100009201", "institucion": "ESCUELA SECUNDARIA N°24 -ANEXO N°01- EN ESCUELA N° 171", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "ANEXO", "anios": [44, 47, 54, null, null, null], "total": 145}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Los Altos", "cue": "100009202", "institucion": "ESCUELA SECUNDARIA N°24 -ANEXO N°02- EN ESCUELA N° 378", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "ANEXO", "anios": [43, 30, 32, null, null, null], "total": 105}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Manantiales", "cue": "100009203", "institucion": "ESCUELA SECUNDARIA N°24 -ANEXO N°03- EN ESCUELA N°\"234 ALMIRANTE GUILLERMO BROWN\"", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "ANEXO", "anios": [4, 7, 8, null, null, null], "total": 19}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Alijilan", "cue": "100009204", "institucion": "ESCUELA SECUNDARIA N°24 -ANEXO N°04- EN ESCUELA N° 274 \"GOBERNACION DE NEUQUEN\"", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "ANEXO", "anios": [7, 9, 20, 33, 20, 19], "total": 108}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Bañado De Ovanta", "cue": "100039100", "institucion": "ESCUELA SECUNDARIA N°64 \"GDOR.JUAN M.SALAS\"", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "SEDE", "anios": [34, 28, 31, 31, 27, 16], "total": 167}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Monte Redondo", "cue": "100088400", "institucion": "ESCUELA SECUNDARIA RURAL N°22", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "SEDE", "anios": [20, 22, 16, 16, 9, 15], "total": 98}, {"nodo": "3", "depto": "Santa Rosa", "seccion": "3", "localidad": "Las Cañas", "cue": "100088500", "institucion": "ESCUELA SECUNDARIA RURAL N°23", "supervisor": "Prof. Rodolfo Mansilla", "tipo": "SEDE", "anios": [9, 7, 5, 9, 6, 7], "total": 43}, {"nodo": "4", "depto": "Ancasti", "seccion": "1", "localidad": "Cañada De Paez", "cue": "100086501", "institucion": "ANEXO I - SECUNDARIA RURAL N°3", "supervisor": "Prof. Karina Quinteros", "tipo": "ANEXO", "anios": [22, 9, null, 9, 11, 3], "total": 54}, {"nodo": "4", "depto": "Ancasti", "seccion": "1", "localidad": "El Comedero", "cue": "100086601", "institucion": "ANEXO N°I - SECUNDARIA RURAL N°4 - ESC. N° 402", "supervisor": "Prof. Karina Quinteros", "tipo": "ANEXO", "anios": [1, 2, 3, 3, 1, 3], "total": 13}, {"nodo": "4", "depto": "Ancasti", "seccion": "1", "localidad": "Ancasti", "cue": "100033600", "institucion": "ESCUELA SECUNDARIA N°23", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [14, 22, 20, 19, 14, 20], "total": 109}, {"nodo": "4", "depto": "Ancasti", "seccion": "1", "localidad": "Anquincila", "cue": "100086500", "institucion": "ESCUELA SECUNDARIA RURAL N°3", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [22, 9, 7, 8, 10, 3], "total": 59}, {"nodo": "4", "depto": "Ancasti", "seccion": "1", "localidad": "La Majada", "cue": "100086600", "institucion": "ESCUELA SECUNDARIA RURAL N°4", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [6, 10, 5, 5, 5, 8], "total": 39}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "La Calera", "cue": "100087501", "institucion": "ANEXO N°I - SECUNDARIA RURAL N° 13 - ESC. N°333", "supervisor": "Prof. Karina Quinteros", "tipo": "ANEXO", "anios": [5, 6, 5, 5, 3, 6], "total": 30}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "Albigasta", "cue": "100087502", "institucion": "ANEXO N°II - SECUNDARIA RURAL N° 13 - ESC. N°346", "supervisor": "Prof. Karina Quinteros", "tipo": "ANEXO", "anios": [3, 1, 2, 5, 4, 4], "total": 19}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "El Alto", "cue": "100049000", "institucion": "ESCUELA SECUNDARIA N°53", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [24, 25, 17, 14, 14, 9], "total": 103}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "Tapso", "cue": "100064500", "institucion": "ESCUELA SECUNDARIA N°71", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [35, 44, 42, 32, 26, 39], "total": 218}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "Vilisman", "cue": "100087601", "institucion": "ESCUELA SECUNDARIA RURAL N° 14 ANEXO -N°01- EN ESCUELA N° 205 \"PEDRO GREGORIO GRAMAJO\"", "supervisor": "Prof. Karina Quinteros", "tipo": "ANEXO", "anios": [5, 2, 3, 1, 7, 3], "total": 21}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "Guayamba", "cue": "100087400", "institucion": "ESCUELA SECUNDARIA RURAL N°12", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [13, 9, 10, 13, 10, 9], "total": 64}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "Colonia De Achalco", "cue": "100087500", "institucion": "ESCUELA SECUNDARIA RURAL N°13", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [8, 8, 14, 10, 7, 13], "total": 60}, {"nodo": "4", "depto": "El Alto", "seccion": "1", "localidad": "Infanzón", "cue": "100087600", "institucion": "ESCUELA SECUNDARIA RURAL N°14", "supervisor": "Prof. Karina Quinteros", "tipo": "SEDE", "anios": [6, 7, 4, 8, 2, 7], "total": 34}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "Las Palmitas", "cue": "100024801", "institucion": "ANEXO N°I - SECUNDARIA N°56 - ESC. N°387", "supervisor": "Prof. Mónica Herrera", "tipo": "ANEXO", "anios": [7, 7, 6, 6, 6, 3], "total": 35}, {"nodo": "4", "depto": "La Paz", "seccion": "3", "localidad": "Casa De Piedra", "cue": "100087701", "institucion": "ANEXO N°I - SECUNDARIA RURAL N°15 - ESC. N°74", "supervisor": "Prof. Vilma Rivas", "tipo": "ANEXO", "anios": [12, 9, 6, 13, 14, 6], "total": 60}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "El Aybal", "cue": "100087801", "institucion": "ANEXO N°I - SECUNDARIA RURAL N°16 - ESC. N°300", "supervisor": "Prof. Mónica Herrera", "tipo": "ANEXO", "anios": [5, 5, 7, 4, 4, 2], "total": 27}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "La Parada", "cue": "100005702", "institucion": "ANEXO N°II - SECUNDARIA N°59 - ESC. N°400", "supervisor": "Prof. Mónica Herrera", "tipo": "ANEXO", "anios": [2, 8, 3, 4, 4, 3], "total": 24}, {"nodo": "4", "depto": "La Paz", "seccion": "3", "localidad": "El Quimilo", "cue": "100087702", "institucion": "ANEXO N°II - SECUNDARIA RURAL N°15 - ESC. N°446", "supervisor": "Prof. Vilma Rivas", "tipo": "ANEXO", "anios": [7, 1, 4, 1, 1, 6], "total": 20}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "ANJULI", "cue": "100005703", "institucion": "ANEXO N°III - SECUNDARIA N°59 - ESC. N°263", "supervisor": "Prof. Mónica Herrera", "tipo": "ANEXO", "anios": [5, 6, 1, 2, 1, 2], "total": 17}, {"nodo": "4", "depto": "La Paz", "seccion": "3", "localidad": "El Jumeal", "cue": "100087703", "institucion": "ANEXO N°III - SECUNDARIA RURAL N°15 - ESC. N°437", "supervisor": "Prof. Vilma Rivas", "tipo": "ANEXO", "anios": [5, 5, 2, 3, 5, 3], "total": 23}, {"nodo": "4", "depto": "La Paz", "seccion": "3", "localidad": "Recreo", "cue": "100084900", "institucion": "ESCUELA SECUNDARIA DE ARTE ESPECIALIZADA N° 1", "supervisor": "Prof. Vilma Rivas", "tipo": "SEDE", "anios": [27, 19, 32, 29, 20, 9], "total": 136}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "Quiros", "cue": "100024800", "institucion": "ESCUELA SECUNDARIA N°56", "supervisor": "Prof. Mónica Herrera", "tipo": "SEDE", "anios": [21, 19, 28, 32, 22, 16], "total": 138}, {"nodo": "4", "depto": "La Paz", "seccion": "3", "localidad": "Esquiu", "cue": "100044700", "institucion": "ESCUELA SECUNDARIA N°57", "supervisor": "Prof. Vilma Rivas", "tipo": "SEDE", "anios": [22, 18, 18, 18, 15, 20], "total": 111}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "San Antonio", "cue": "100008300", "institucion": "ESCUELA SECUNDARIA N°58", "supervisor": "Prof. Mónica Herrera", "tipo": "SEDE", "anios": [43, 33, 36, 38, 36, 29], "total": 215}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "Icaño", "cue": "100005700", "institucion": "ESCUELA SECUNDARIA N°59", "supervisor": "Prof. Mónica Herrera", "tipo": "SEDE", "anios": [51, 42, 31, 30, 34, 45], "total": 233}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "Icaño", "cue": "100005701", "institucion": "ESCUELA SECUNDARIA N°59 - ANEXO I EN ESCUELA Nº 602 HOGAR \"FRAY MAMERTO ESQUIU\"", "supervisor": "Prof. Mónica Herrera", "tipo": "ANEXO", "anios": [12, 15, 15, null, null, null], "total": 42}, {"nodo": "4", "depto": "La Paz", "seccion": "3", "localidad": "Recreo", "cue": "100085400", "institucion": "ESCUELA SECUNDARIA ORIENTADA RECREO N° 79", "supervisor": "Prof. Vilma Rivas", "tipo": "SEDE", "anios": [29, 42, 62, 65, 57, 51], "total": 306}, {"nodo": "4", "depto": "La Paz", "seccion": "3", "localidad": "La Guardia", "cue": "100087700", "institucion": "ESCUELA SECUNDARIA RURAL N°15", "supervisor": "Prof. Vilma Rivas", "tipo": "SEDE", "anios": [9, 13, 14, 10, 11, 12], "total": 69}, {"nodo": "4", "depto": "La Paz", "seccion": "2", "localidad": "La Dorada", "cue": "100087800", "institucion": "ESCUELA SECUNDARIA RURAL N°16", "supervisor": "Prof. Mónica Herrera", "tipo": "SEDE", "anios": [23, 20, 22, 22, 12, 26], "total": 125}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Andalgala", "cue": "100073600", "institucion": "ESCUELA SECUNDARIA N°21 \"REPUBLICA DE VENEZUELA\"", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [16, 36, 36, 38, 44, 46], "total": 216}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "El Alamito", "cue": "100009900", "institucion": "ESCUELA SECUNDARIA N°27", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [46, 38, 51, 39, 35, 39], "total": 248}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Chaquiago", "cue": "100041400", "institucion": "ESCUELA SECUNDARIA N°38", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [11, 9, 13, 19, 11, 7], "total": 70}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Choya", "cue": "100041401", "institucion": "ESCUELA SECUNDARIA N°38 ANEXO -N°01- EN ESCUELA N° 217 \"FRAGATA LIBERTAD\"", "supervisor": "Prof. Gloria Sosa", "tipo": "ANEXO", "anios": [5, 3, 4, null, null, null], "total": 12}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "El Potrero", "cue": "100041402", "institucion": "ESCUELA SECUNDARIA N°38 ANEXO -N°02- EN ESCUELA N° 286 \"SANTA LUCÍA\"", "supervisor": "Prof. Gloria Sosa", "tipo": "ANEXO", "anios": [4, 2, 2, null, null, null], "total": 8}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Malli I", "cue": "100088900", "institucion": "ESCUELA SECUNDARIA N°81", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [19, 25, 27, 10, 13, 22], "total": 116}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Andalgala", "cue": "100089000", "institucion": "ESCUELA SECUNDARIA N°82", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [45, 59, 37, 46, 38, 30], "total": 255}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Rio Potrero", "cue": "100089200", "institucion": "ESCUELA SECUNDARIA RURAL N°28", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [10, 5, 6, 8, 6, 8], "total": 43}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Agua De Las Palomas", "cue": "100089201", "institucion": "ESCUELA SECUNDARIA RURAL N°28 - ANEXO I", "supervisor": "Prof. Gloria Sosa", "tipo": "ANEXO", "anios": [5, 6, 3, 8, 7, 4], "total": 33}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Mina Capillitas", "cue": "100089300", "institucion": "ESCUELA SECUNDARIA RURAL N°29", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [2, 5, 2, 3, 3, 1], "total": 16}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Amanao", "cue": "100086700", "institucion": "ESCUELA SECUNDARIA RURAL N°5", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [3, 4, 5, 2, 4, 6], "total": 24}, {"nodo": "5", "depto": "Andalgala", "seccion": "1", "localidad": "Villa Vil", "cue": "100086800", "institucion": "ESCUELA SECUNDARIA RURAL N°6", "supervisor": "Prof. Gloria Sosa", "tipo": "SEDE", "anios": [5, 4, 5, 6, 4, 7], "total": 31}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "POMAN", "cue": "100085000", "institucion": "ESCUELA SECUNDARIA DE ARTES ESPECIALIZADO N° 2", "supervisor": "Prof. Fernando Faur", "tipo": "SEDE", "anios": [26, 19, 14, 22, 28, 26], "total": 135}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "Poman", "cue": "100066000", "institucion": "ESCUELA SECUNDARIA N°20 \"ALTE. GUILLERMO BROWN\"", "supervisor": "Prof. Fernando Faur", "tipo": "SEDE", "anios": [21, 27, 29, 28, 20, 30], "total": 155}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "El Pajonal", "cue": "100066001", "institucion": "ESCUELA SECUNDARIA N°20 \"ALTE. GUILLERMO BROWN\" ANEXO N°01- EN ESCUELA N° 394", "supervisor": "Prof. Fernando Faur", "tipo": "ANEXO", "anios": [9, 12, 14, 8, 7, 7], "total": 57}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "Sijan", "cue": "100004800", "institucion": "ESCUELA SECUNDARIA N°62 \"PROF. RAMÓN ARTURO BARRIOS\"", "supervisor": "Prof. Fernando Faur", "tipo": "SEDE", "anios": [12, 19, 18, 35, 15, 20], "total": 119}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "Colpes", "cue": "100004801", "institucion": "ESCUELA SECUNDARIA N°62 ANEXO -N°01- EN ESCUELA N° 334 \"MARIA DEL CARMEN FUENZALIDA\"", "supervisor": "Prof. Fernando Faur", "tipo": "ANEXO", "anios": [13, 9, 11, 7, 7, 11], "total": 58}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "Rincon", "cue": "100004802", "institucion": "ESCUELA SECUNDARIA N°62 ANEXO -N°02- EN ESCUELA N° 295 GRAL JULIO A.ROCA", "supervisor": "Prof. Fernando Faur", "tipo": "ANEXO", "anios": [5, 3, 5, null, null, null], "total": 13}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "San Miguel", "cue": "100004803", "institucion": "ESCUELA SECUNDARIA N°62 ANEXO -N°03- EN ESCUELA N° 391", "supervisor": "Prof. Fernando Faur", "tipo": "ANEXO", "anios": [1, 4, 3, null, null, null], "total": 8}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "Mutquin", "cue": "100008500", "institucion": "ESCUELA SECUNDARIA N°63 \"SAN LUIS GONZAGA\"", "supervisor": "Prof. Fernando Faur", "tipo": "SEDE", "anios": [17, 14, 19, 13, 18, 30], "total": 111}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "Poman", "cue": "100079800", "institucion": "ESCUELA SECUNDARIA N°75", "supervisor": "Prof. Fernando Faur", "tipo": "SEDE", "anios": [12, 16, 12, 15, 10, 10], "total": 75}, {"nodo": "5", "depto": "Poman", "seccion": "2", "localidad": "Retiro", "cue": "100088000", "institucion": "ESCUELA SECUNDARIA RURAL N°18", "supervisor": "Prof. Fernando Faur", "tipo": "SEDE", "anios": [4, 5, 5, 2, 4, 2], "total": 22}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "El Desmonte", "cue": "100088301", "institucion": "ANEXO N°I - SECUNDARIA RURAL N° 21", "supervisor": "Prof. Lagoria Fernando", "tipo": "ANEXO", "anios": [0, 0, 5, 3, 4, 1], "total": 13}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "El Puesto", "cue": "100013002", "institucion": "ANEXO N°II - SECUNDARIA N°31 - ESC. N°363", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [2, 3, 4, null, null, null], "total": 9}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Ampajango", "cue": "100088302", "institucion": "ANEXO N°II - SECUNDARIA RURAL N° 21", "supervisor": "Prof. Lagoria Fernando", "tipo": "ANEXO", "anios": [0, 1, 1, 4, 1, 2], "total": 9}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Andalhuala", "cue": "100085704", "institucion": "ANEXO N°IV - SECUNDARIA N°78", "supervisor": "Prof. Lagoria Fernando", "tipo": "ANEXO", "anios": [7, 4, 6, 2, 7, 4], "total": 30}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Entre Rios", "cue": "100085705", "institucion": "ANEXO N°V - SECUNDARIA N°78", "supervisor": "Prof. Lagoria Fernando", "tipo": "ANEXO", "anios": [3, 0, 4, 2, 3, 1], "total": 13}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "San Jose", "cue": "100085700", "institucion": "ESCUELA SECUNDARIA N °78 SAN JOSÉ", "supervisor": "Prof. Lagoria Fernando", "tipo": "SEDE", "anios": [7, 12, 12, 22, 28, 24], "total": 105}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Famatanca", "cue": "100091200", "institucion": "ESCUELA SECUNDARIA N° 90", "supervisor": "Prof. Lagoria Fernando", "tipo": "SEDE", "anios": [12, 15, 13, 12, 11, 8], "total": 71}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Santa Maria", "cue": "100084800", "institucion": "ESCUELA SECUNDARIA N° 94", "supervisor": "Prof. Lagoria Fernando", "tipo": "SEDE", "anios": [21, 30, 27, 19, 14, 16], "total": 127}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Santa Maria", "cue": "100073000", "institucion": "ESCUELA SECUNDARIA N°11 \"ABEL ACOSTA\"", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "SEDE", "anios": [108, 96, 96, 128, 143, 137], "total": 708}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Santa Maria", "cue": "100073001", "institucion": "ESCUELA SECUNDARIA N°11 \"ABEL ACOSTA\" ANEXO -N°01- EN ESCUELA N°448 PBRO.BAUDILLO VASQUEZ", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [15, 21, 28, null, null, null], "total": 64}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Chañar Punco", "cue": "100073002", "institucion": "ESCUELA SECUNDARIA N°11 \"ABEL ACOSTA\" ANEXO -N°02- EN ESCUELA N° 220 \"MARIA F.DE ITURRI\"", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [4, 3, 9, null, null, null], "total": 16}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Las Mojarras", "cue": "100073003", "institucion": "ESCUELA SECUNDARIA N°11 \"ABEL ACOSTA\" ANEXO -N°03- EN ESCUELA N° 252", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [8, 3, 6, null, null, null], "total": 17}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Recreo", "cue": "100073004", "institucion": "ESCUELA SECUNDARIA N°11 \"ABEL ACOSTA\" ANEXO -N°04- EN ESCUELA N° 267", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [3, 6, 6, null, null, null], "total": 15}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Loro Huasi", "cue": "100073005", "institucion": "ESCUELA SECUNDARIA N°11 \"ABEL ACOSTA\" ANEXO -N°05- EN ESCUELA N° 240", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [6, 5, 5, null, null, null], "total": 16}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Fuerte Quemado", "cue": "100073006", "institucion": "ESCUELA SECUNDARIA N°11 \"ABEL ACOSTA\" ANEXO -N°06- EN ESCUELA N° 241", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [9, 6, 8, 8, 9, 7], "total": 47}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Santa Maria", "cue": "100013000", "institucion": "ESCUELA SECUNDARIA N°31 \"GRAL.MANUEL BELGRANO\"", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "SEDE", "anios": [27, 50, 37, 57, 35, 41], "total": 247}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "Santa Maria", "cue": "100013001", "institucion": "ESCUELA SECUNDARIA N°31 ANEXO -N°01- EN ESCUELA N° 114", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "ANEXO", "anios": [27, 47, 33, null, null, null], "total": 107}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Casa De Piedra", "cue": "100085702", "institucion": "ESCUELA SECUNDARIA N°78 SAN JOSE ANEXO -N°02- EN ESCUELA N° 317", "supervisor": "Prof. Lagoria Fernando", "tipo": "ANEXO", "anios": [5, 4, 6, null, null, null], "total": 15}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "San Jose Norte", "cue": "100085703", "institucion": "ESCUELA SECUNDARIA N°78 SAN JOSE ANEXO -N°03- EN ESCUELA N° 318", "supervisor": "Prof. Lagoria Fernando", "tipo": "ANEXO", "anios": [5, 6, 8, null, null, null], "total": 19}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "La Hoyada", "cue": "100088100", "institucion": "ESCUELA SECUNDARIA RURAL N°19", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "SEDE", "anios": [2, 2, 1, 3, 5, 3], "total": 16}, {"nodo": "6", "depto": "Santa Maria", "seccion": "2", "localidad": "El Cajon", "cue": "100088200", "institucion": "ESCUELA SECUNDARIA RURAL N°20", "supervisor": "Prof. Ana Lía Álvarez", "tipo": "SEDE", "anios": [2, 4, 6, 4, 3, 5], "total": 24}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Punta De Balasto", "cue": "100088300", "institucion": "ESCUELA SECUNDARIA RURAL N°21", "supervisor": "Prof. Lagoria Fernando", "tipo": "SEDE", "anios": [2, 6, 8, 12, 11, 6], "total": 45}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Agua Amarilla", "cue": "100089700", "institucion": "ESCUELA SECUNDARIA RURAL N°33", "supervisor": "Prof. Lagoria Fernando", "tipo": "SEDE", "anios": [2, 1, 0, 3, 1, 2], "total": 9}, {"nodo": "6", "depto": "Santa Maria", "seccion": "1", "localidad": "Paloma Yaco", "cue": "100089800", "institucion": "ESCUELA SECUNDARIA RURAL N°34", "supervisor": "Prof. Lagoria Fernando", "tipo": "SEDE", "anios": [2, 0, 3, 1, 2, 3], "total": 11}, {"nodo": "7", "depto": "Antofagasta De La Sierra", "seccion": "2", "localidad": "Antofagasta De La Sierra", "cue": "100026100", "institucion": "ESCUELA SECUNDARIA N°39", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "SEDE", "anios": [23, 20, 23, 25, 18, 20], "total": 129}, {"nodo": "7", "depto": "Antofagasta De La Sierra", "seccion": "2", "localidad": "El Peñon", "cue": "100089100", "institucion": "ESCUELA SECUNDARIA RURAL N°27", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "SEDE", "anios": [11, 8, 11, 6, 11, 8], "total": 55}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Condor Huasi", "cue": "100087001", "institucion": "ANEXO 01-ESCUELA SECUNDARIA RURAL N°8  EN ESCUELA N° 336 \"JULIO RICARDO FIGUEROA\"", "supervisor": "Prof. Stella Villanueva Prof. Jorge Condori", "tipo": "ANEXO", "anios": [6, 5, 6, 4, 6, 5], "total": 32}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Papachacra", "cue": "100017601", "institucion": "ANEXO N°I - ESCUELA SECUNDARIA N°41 EN ESCUELA N°425", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "ANEXO", "anios": [10, 8, 5, 8, 11, 8], "total": 50}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "San Fernando", "cue": "100086902", "institucion": "ANEXO N°II - SECUNDARIA RURAL N°7 - ESC. N°475", "supervisor": "Prof. Stella Villanueva Prof. Jorge Condori", "tipo": "ANEXO", "anios": [13, 13, 11, 11, 9, 15], "total": 72}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Asampay", "cue": "100086903", "institucion": "ANEXO N°III - SECUNDARIA RURAL N°7 - ESC. N° 460", "supervisor": "Prof. Stella Villanueva Prof. Jorge Condori", "tipo": "ANEXO", "anios": [3, 3, 3, null, null, null], "total": 9}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Belen", "cue": "100025600", "institucion": "ESCUELA SECUNDARIA N° 18 \"EJÉRCITO DE LOS ANDES\"", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "ANEXO", "anios": [49, 57, 57, 103, 104, 103], "total": 473}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Huaco", "cue": "100025602", "institucion": "ESCUELA SECUNDARIA N° 18 \"EJÉRCITO DE LOS ANDES\" - ANEXO II - HUACO", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [27, 26, 33, 0, 0, 0], "total": 86}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Belen", "cue": "100090700", "institucion": "ESCUELA SECUNDARIA N° 85", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [25, 45, 44, 57, 42, 49], "total": 262}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Belen", "cue": "100090701", "institucion": "ESCUELA SECUNDARIA N° 85 ANEXO - N°1 - EN ESCUELA N° 352", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "ANEXO", "anios": [2, 2, 5, null, null, null], "total": 9}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Puerta De Corral Quemado", "cue": "100091300", "institucion": "ESCUELA SECUNDARIA N° 91", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [8, 8, 7, 4, 9, 11], "total": 47}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Barrio Artaza", "cue": "100025605", "institucion": "ESCUELA SECUNDARIA N°18 ANEXO - N°5 - EN ESCUELA N° 84", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "ANEXO", "anios": [6, 7, 4, null, null, null], "total": 17}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Hualfin", "cue": "100055700", "institucion": "ESCUELA SECUNDARIA N°40", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [24, 15, 10, 24, 30, 14], "total": 117}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Corral Quemado", "cue": "100017600", "institucion": "ESCUELA SECUNDARIA N°41", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "SEDE", "anios": [33, 11, 18, 10, 27, 24], "total": 123}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Pozo De Piedra", "cue": "100040200", "institucion": "ESCUELA SECUNDARIA N°42 \"DR.ARTURO H.ILLIA\"", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [18, 15, 5, 23, 9, 13], "total": 83}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Loa Nacimientos", "cue": "100018300", "institucion": "ESCUELA SECUNDARIA N°43", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [7, 7, 4, 3, 1, 1], "total": 23}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Villa Vil", "cue": "100079600", "institucion": "ESCUELA SECUNDARIA N°73", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "SEDE", "anios": [5, 3, 13, 9, 4, 5], "total": 39}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Jacipunco", "cue": "100079700", "institucion": "ESCUELA SECUNDARIA N°74", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [3, 4, 4, 7, 17, 14], "total": 49}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "El Durazno", "cue": "100079701", "institucion": "ESCUELA SECUNDARIA N°74 ANEXO -N°01- EN  ESCUELA N° 68 \"JOSÉ OLMOS DE AGUILERA\"", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "ANEXO", "anios": [9, 7, 12, null, null, null], "total": 28}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Puerta De San Jose", "cue": "100086901", "institucion": "ESCUELA SECUNDARIA RURAL N°07 ANEXO -N°01- EN ESCUELA N° 254", "supervisor": "Prof. Stella Villanueva Prof. Jorge Condori", "tipo": "ANEXO", "anios": [8, 3, 1, 5, 6, 5], "total": 28}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Laguna Blanca", "cue": "100089400", "institucion": "ESCUELA SECUNDARIA RURAL N°30", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "SEDE", "anios": [9, 14, 15, 6, 8, 10], "total": 62}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Corral Blanco", "cue": "100089401", "institucion": "ESCUELA SECUNDARIA RURAL N°30 ANEXO I EN ESCUELA N°89", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "ANEXO", "anios": [3, 2, 1, 3, 2, 3], "total": 14}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Agua Caliente", "cue": "100089402", "institucion": "ESCUELA SECUNDARIA RURAL N°30 ANEXO II EN ESCUELA N°163", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "ANEXO", "anios": [5, 9, 9, 4, 5, 6], "total": 38}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Las Cuevas", "cue": "100089500", "institucion": "ESCUELA SECUNDARIA RURAL N°31", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "SEDE", "anios": [8, 4, 4, 4, 8, 6], "total": 34}, {"nodo": "7", "depto": "Belen", "seccion": "2", "localidad": "Barranca Larga", "cue": "100089600", "institucion": "ESCUELA SECUNDARIA RURAL N°32", "supervisor": "Prof. Tiziana del Valle Marcial Prof. Omar Villagran", "tipo": "SEDE", "anios": [7, 4, 9, 12, 7, 5], "total": 44}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "La Cienaga De Arriba", "cue": "100086900", "institucion": "ESCUELA SECUNDARIA RURAL N°7", "supervisor": "Prof. Stella Villanueva Prof. Jorge Condori", "tipo": "SEDE", "anios": [28, 36, 30, 32, 38, 46], "total": 210}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Las Barrancas", "cue": "100087000", "institucion": "ESCUELA SECUNDARIA RURAL N°8", "supervisor": "Prof. Stella Villanueva Prof. Jorge Condori", "tipo": "SEDE", "anios": [10, 10, 10, 12, 13, 13], "total": 68}, {"nodo": "7", "depto": "Belen", "seccion": "1", "localidad": "Londres", "cue": "100047200", "institucion": "ESCUELA SECUNDARIAL N°30 \"JOSE HERNANDEZ\"", "supervisor": "Prof. Stella Villanueva / Prof. Jorge Condori", "tipo": "SEDE", "anios": [54, 51, 51, 42, 33, 35], "total": 266}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Mesada De Zarate", "cue": "100088701", "institucion": "ANEXO N°I - SECUNDARIA RURAL N°25 - ESC. N°306", "supervisor": "Prof. Quispe, Mariela", "tipo": "ANEXO", "anios": [4, 4, 3, 4, 2, 2], "total": 19}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Taton", "cue": "100088702", "institucion": "ANEXO N°II - SECUNDARIA RURAL N°25 - ESC. N°299", "supervisor": "Prof. Quispe, Mariela", "tipo": "ANEXO", "anios": [5, 1, 7, 9, 3, 6], "total": 31}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Punta Del Agua", "cue": "100088703", "institucion": "ANEXO N°III - SECUNDARIA RURAL N°25 - ESC. N°56", "supervisor": "Prof. Quispe, Mariela", "tipo": "ANEXO", "anios": [3, 8, 3, 5, 3, 2], "total": 24}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Antinaco", "cue": "100088704", "institucion": "ANEXO N°IV - SECUNDARIA RURAL N°25 - ESC. N°476", "supervisor": "Prof. Quispe, Mariela", "tipo": "ANEXO", "anios": [1, 3, 2, 2, 2, 3], "total": 13}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Fiambala", "cue": "100090800", "institucion": "ESCUELA SECUNDARIA N° 86", "supervisor": "Prof. Quispe, Mariela", "tipo": "SEDE", "anios": [30, 23, 17, 21, 22, 14], "total": 127}, {"nodo": "8", "depto": "Tinogasta", "seccion": "2", "localidad": "Tinogasta", "cue": "100027200", "institucion": "ESCUELA SECUNDARIA N°14 \"BERNARDINO RIVADAVIA\"", "supervisor": "Prof. Cristian Leonardo Bayon", "tipo": "SEDE", "anios": [13, 18, 11, 19, 20, 12], "total": 93}, {"nodo": "8", "depto": "Tinogasta", "seccion": "2", "localidad": "Tinogasta", "cue": "100025000", "institucion": "ESCUELA SECUNDARIA N°15 \"LIB.GRAL. SAN MARTIN\"", "supervisor": "Prof. Cristian Leonardo Bayon", "tipo": "SEDE", "anios": [65, 72, 93, 80, 85, 87], "total": 482}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Fiambala", "cue": "100028500", "institucion": "ESCUELA SECUNDARIA N°17", "supervisor": "Prof. Quispe, Mariela", "tipo": "SEDE", "anios": [54, 49, 56, 63, 55, 49], "total": 326}, {"nodo": "8", "depto": "Tinogasta", "seccion": "2", "localidad": "Copacabana", "cue": "100014600", "institucion": "ESCUELA SECUNDARIA N°65 \"EUSEBIO CATANESI\"", "supervisor": "Prof. Cristian Leonardo Bayon", "tipo": "SEDE", "anios": [4, 4, 5, 18, 19, 13], "total": 63}, {"nodo": "8", "depto": "Tinogasta", "seccion": "2", "localidad": "La Puntilla De San Jose", "cue": "100014601", "institucion": "ESCUELA SECUNDARIA N°65 \"EUSEBIO CATANESI\" ANEXO -01- EN ESCUELA N° 309 \"MANUEL LAINEZ\"", "supervisor": "Prof. Cristian Leonardo Bayon", "tipo": "ANEXO", "anios": [5, 4, 4, null, null, null], "total": 13}, {"nodo": "8", "depto": "Tinogasta", "seccion": "2", "localidad": "Banda De Lucero", "cue": "100014602", "institucion": "ESCUELA SECUNDARIA N°65 \"EUSEBIO CATANESI\" ANEXO -02- EN ESCUELA N° 258", "supervisor": "Prof. Cristian Leonardo Bayon", "tipo": "ANEXO", "anios": [2, 2, 6, null, null, null], "total": 10}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Palo Blanco", "cue": "100028600", "institucion": "ESCUELA SECUNDARIA N°66", "supervisor": "Prof. Quispe, Mariela", "tipo": "SEDE", "anios": [14, 13, 10, 19, 22, 9], "total": 87}, {"nodo": "8", "depto": "Tinogasta", "seccion": "2", "localidad": "El Salado", "cue": "100025200", "institucion": "ESCUELA SECUNDARIA N°67", "supervisor": "Prof. Cristian Leonardo Bayon", "tipo": "SEDE", "anios": [15, 9, 15, 8, 8, 9], "total": 64}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "Medanitos", "cue": "100046100", "institucion": "ESCUELA SECUNDARIA N°68", "supervisor": "Prof. Quispe, Mariela", "tipo": "SEDE", "anios": [17, 20, 14, 19, 8, 13], "total": 91}, {"nodo": "8", "depto": "Tinogasta", "seccion": "2", "localidad": "El Puesto", "cue": "100088600", "institucion": "ESCUELA SECUNDARIA RURAL N°24", "supervisor": "Prof. Cristian Leonardo Bayon", "tipo": "SEDE", "anios": [10, 13, 15, 5, 16, 9], "total": 68}, {"nodo": "8", "depto": "Tinogasta", "seccion": "1", "localidad": "saujil", "cue": "100088700", "institucion": "ESCUELA SECUNDARIA RURAL N°25", "supervisor": "Prof. Quispe, Mariela", "tipo": "SEDE", "anios": [18, 22, 19, 24, 13, 14], "total": 110}]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+
+function titleCase(s){
+  if(!s) return s;
+  return s.toLowerCase().replace(/(^|\s)([a-záéíóúñ])/g, (m,p1,p2)=>p1+p2.toUpperCase());
+}
+
+// Precalcular totales generales
+const totalInst = DATA.length;
+const totalMat = DATA.reduce((a,d)=> a + (d.total||0), 0);
+document.getElementById('statInst').textContent = totalInst;
+document.getElementById('statMat').textContent = totalMat.toLocaleString('es-AR');
+
+// Poblar selects
+function fillSelect(id, values){
+  const sel = document.getElementById(id);
+  values.forEach(v=>{
+    const opt = document.createElement('option');
+    opt.value = v; opt.textContent = titleCase(v);
+    sel.appendChild(opt);
+  });
+}
+const nodos = [...new Set(DATA.map(d=>d.nodo))].sort((a,b)=>Number(a)-Number(b));
+fillSelect('filtNodo', nodos.map(n=>n)); // valor = numero, label se ajusta abajo
+document.querySelectorAll('#filtNodo option').forEach(o=>{ if(o.value) o.textContent = 'Nodo ' + o.value; });
+
+const deptos = [...new Set(DATA.map(d=>d.depto))].sort((a,b)=>a.localeCompare(b,'es'));
+fillSelect('filtDepto', deptos);
+
+const supervisores = [...new Set(DATA.map(d=>d.supervisor).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+fillSelect('filtSupervisor', supervisores);
+
+const grid = document.getElementById('grid');
+const searchInput = document.getElementById('searchInput');
+const filtNodo = document.getElementById('filtNodo');
+const filtDepto = document.getElementById('filtDepto');
+const filtSupervisor = document.getElementById('filtSupervisor');
+const filtTipo = document.getElementById('filtTipo');
+const resultCount = document.getElementById('resultCount');
+const resultMat = document.getElementById('resultMat');
+
+function normalize(s){
+  return (s||'').toString().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function miniBars(anios){
+  const max = Math.max(1, ...anios.filter(a=>a!==null));
+  return anios.map(a=>{
+    if(a===null){
+      return '<div class="bar na" style="height:24px" title="Sin dato"></div>';
+    }
+    const h = Math.max(3, Math.round((a/max)*24));
+    return `<div class="bar" style="height:24px"><span style="height:${h}px" title="${a}"></span></div>`;
+  }).join('');
+}
+
+function cardHTML(d){
+  const tipoClass = d.tipo === 'ANEXO' ? 'anexo' : 'sede';
+  const tipoLabel = d.tipo === 'ANEXO' ? 'Anexo' : 'Sede';
+  const matDisplay = (d.total !== null && d.total !== undefined) ? d.total.toLocaleString('es-AR') : 'S/D';
+  return `
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">${d.institucion}</div>
+      <div class="card-cue">CUE ${d.cue}</div>
+    </div>
+    <span class="card-tipo ${tipoClass}">${tipoLabel}</span>
+    <div class="card-meta">
+      Nodo ${d.nodo}, sección ${d.seccion || '—'}<br>
+      <b>${titleCase(d.depto)}</b>, ${titleCase(d.localidad) || 'localidad sin dato'}<br>
+      Supervisor: ${d.supervisor || 'sin dato'}
+    </div>
+    <div class="card-mat">
+      <div>
+        <div class="mat-num">${matDisplay}</div>
+        <div class="mat-lbl">matrícula total</div>
+      </div>
+      <div class="mini-bars">${miniBars(d.anios)}</div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const q = normalize(searchInput.value.trim());
+  const nodo = filtNodo.value;
+  const depto = filtDepto.value;
+  const sup = filtSupervisor.value;
+  const tipo = filtTipo.value;
+
+  let filtered = DATA.filter(d=>{
+    if(nodo && d.nodo !== nodo) return false;
+    if(depto && d.depto !== depto) return false;
+    if(sup && d.supervisor !== sup) return false;
+    if(tipo && d.tipo !== tipo) return false;
+    if(q){
+      const hay = normalize([d.institucion,d.cue,d.localidad,d.depto,d.supervisor,'nodo '+d.nodo].join(' '));
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  filtered.sort((a,b)=> (b.total||0) - (a.total||0));
+
+  const sumMat = filtered.reduce((a,d)=> a + (d.total||0), 0);
+  resultCount.innerHTML = `<strong>${filtered.length}</strong> institución${filtered.length===1?'':'es'}`;
+  resultMat.innerHTML = `Matrícula filtrada: <strong>${sumMat.toLocaleString('es-AR')}</strong>`;
+
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><b>No encontramos coincidencias</b>Probá con otro nombre de escuela, localidad o supervisor.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(cardHTML).join('');
+}
+
+[searchInput, filtNodo, filtDepto, filtSupervisor, filtTipo].forEach(el=>{
+  el.addEventListener('input', render);
+  el.addEventListener('change', render);
+});
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  searchInput.value=''; filtNodo.value=''; filtDepto.value=''; filtSupervisor.value=''; filtTipo.value='';
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
