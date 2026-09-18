@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -303,8 +302,9 @@ function render(){
     if(sup && d.supervisor !== sup) return false;
     if(tipo && d.tipo !== tipo) return false;
     if(q){
-      const hay = normalize([d.institucion,d.cue,d.localidad,d.depto,d.supervisor,'nodo '+d.nodo].join(' '));
-      if(!hay.includes(q)) return false;
+      const hay = normalize([d.institucion,d.cue,d.localidad,d.depto,d.supervisor,'nodo '+d.nodo,'seccion '+d.seccion].join(' '));
+      const words = q.split(/\s+/).filter(Boolean);
+      if(!words.every(w=>hay.includes(w))) return false;
     }
     return true;
   });
